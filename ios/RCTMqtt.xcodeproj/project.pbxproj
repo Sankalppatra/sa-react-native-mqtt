@@ -211,9 +211,9 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../../../../react-native/React/**",
-					"$(SRCROOT)/../../../node_modules/sp-react-native-mqtt/ios",
-					"$(SRCROOT)/../node_modules/sp-react-native-mqtt/ios",
-					"$(SRCROOT)/../../../../sp-react-native-mqtt/ios/**",
+					"$(SRCROOT)/../../../node_modules/chromeellite-react-native-mqtt/ios",
+					"$(SRCROOT)/../node_modules/chromeellite-react-native-mqtt/ios",
+					"$(SRCROOT)/../../../../chromeellite-react-native-mqtt/ios/**",
 					"$(SRCROOT)/../../../ios/Pods/MQTTClient/**",
 				);
 				OTHER_LDFLAGS = (
@@ -231,9 +231,9 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../../../../react-native/React/**",
-					"$(SRCROOT)/../../../node_modules/sp-react-native-mqtt/ios",
-					"$(SRCROOT)/../node_modules/sp-react-native-mqtt/ios",
-					"$(SRCROOT)/../../../../sp-react-native-mqtt/ios/**",
+					"$(SRCROOT)/../../../node_modules/chromeellite-react-native-mqtt/ios",
+					"$(SRCROOT)/../node_modules/chromeellite-react-native-mqtt/ios",
+					"$(SRCROOT)/../../../../chromeellite-react-native-mqtt/ios/**",
 					"$(SRCROOT)/../../../ios/Pods/MQTTClient/**",
 				);
 				OTHER_LDFLAGS = (

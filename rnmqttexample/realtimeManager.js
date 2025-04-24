@@ -1,4 +1,4 @@
-import MQTT from 'sp-react-native-mqtt';
+import MQTT from 'chromeellite-react-native-mqtt';
 import _ from 'underscore';
 
 
