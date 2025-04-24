@@ -5,7 +5,7 @@ package = JSON.parse(json).deep_symbolize_keys
 
 Pod::Spec.new do |s|
   s.name         = "chromeellite-react-native-mqtt"
-  s.version      = "0.6.0"
+  s.version      = "0.6.1"
   s.summary      = "MQTT client for react-native"
   s.description  = <<-DESC
                   MQTT client for react-native

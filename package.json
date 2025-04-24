@@ -1,6 +1,6 @@
 {
   "name": "@chromeellite/react-native-mqtt",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "MQTT client for react-native with new architecture support",
   "main": "index.js",
   "scripts": {
