@@ -1,10 +1,5 @@
 [![npm](https://img.shields.io/npm/dt/react-native-mqtt.svg)]()
 
-## Announcements:
-
-No longer actively maintained.
-Looking for maintainers.
-
 ## Description
 
 A [react-native](https://github.com/facebook/react-native) mqtt client module that works
