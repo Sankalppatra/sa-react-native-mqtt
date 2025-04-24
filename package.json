@@ -1,6 +1,6 @@
 {
   "name": "@chromeellite/react-native-mqtt",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "MQTT client for react-native with new architecture support",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/Sankalppatra/chromeellite-react-native-mqtt.git#readme",
   "peerDependencies": {
-    "react": ">=18.0.0",
-    "react-native": ">=0.79.0"
+    "react": ">=18.2.0",
+    "react-native": ">=0.73.0"
   }
 }
