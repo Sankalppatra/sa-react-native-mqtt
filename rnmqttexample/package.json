@@ -9,7 +9,7 @@
   "dependencies": {
     "react": "16.8.3",
     "react-native": "0.59.9",
-    "sa-react-native-mqtt-mqtt": "^0.6.0",
+    "sa-react-native-mqtt": "^0.6.0",
     "underscore": "^1.9.1"
   },
   "devDependencies": {

@@ -211,9 +211,9 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../../../../react-native/React/**",
-					"$(SRCROOT)/../../../node_modules/sa-react-native-mqtt-mqtt/ios",
-					"$(SRCROOT)/../node_modules/sa-react-native-mqtt-mqtt/ios",
-					"$(SRCROOT)/../../../../sa-react-native-mqtt-mqtt/ios/**",
+					"$(SRCROOT)/../../../node_modules/sa-react-native-mqtt/ios",
+					"$(SRCROOT)/../node_modules/sa-react-native-mqtt/ios",
+					"$(SRCROOT)/../../../../sa-react-native-mqtt/ios/**",
 					"$(SRCROOT)/../../../ios/Pods/MQTTClient/**",
 				);
 				OTHER_LDFLAGS = (
@@ -231,9 +231,9 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../../../../react-native/React/**",
-					"$(SRCROOT)/../../../node_modules/sa-react-native-mqtt-mqtt/ios",
-					"$(SRCROOT)/../node_modules/sa-react-native-mqtt-mqtt/ios",
-					"$(SRCROOT)/../../../../sa-react-native-mqtt-mqtt/ios/**",
+					"$(SRCROOT)/../../../node_modules/sa-react-native-mqtt/ios",
+					"$(SRCROOT)/../node_modules/sa-react-native-mqtt/ios",
+					"$(SRCROOT)/../../../../sa-react-native-mqtt/ios/**",
 					"$(SRCROOT)/../../../ios/Pods/MQTTClient/**",
 				);
 				OTHER_LDFLAGS = (

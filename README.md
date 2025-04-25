@@ -1,6 +1,6 @@
 [![npm](https://img.shields.io/npm/dt/react-native-mqtt.svg)]()
 
-# sa-react-native-mqtt-mqtt
+# sa-react-native-mqtt
 
 MQTT client for react-native with new architecture support
 
@@ -18,19 +18,19 @@ A [react-native](https://github.com/facebook/react-native) mqtt client module th
 ## Installation
 
 ```bash
-npm install sa-react-native-mqtt-mqtt --save
+npm install sa-react-native-mqtt --save
 ```
 
 or
 
 ```bash
-yarn add sa-react-native-mqtt-mqtt
+yarn add sa-react-native-mqtt
 ```
 
 ## Linking
 
 ```bash
-react-native link sa-react-native-mqtt-mqtt
+react-native link sa-react-native-mqtt
 ```
 
 ### iOS
@@ -42,22 +42,22 @@ react-native link sa-react-native-mqtt-mqtt
 * Update `android/settings.gradle`:
 
 ```gradle
-include ':sa-react-native-mqtt-mqtt'
-project(':sa-react-native-mqtt-mqtt').projectDir = new File(rootProject.projectDir,  '../node_modules/sa-react-native-mqtt-mqtt/android')
+include ':sa-react-native-mqtt'
+project(':sa-react-native-mqtt').projectDir = new File(rootProject.projectDir,  '../node_modules/sa-react-native-mqtt/android')
 ```
 
 * Update `android/app/build.gradle`:
 
 ```gradle
 dependencies {
-    implementation project(':sa-react-native-mqtt-mqtt')
+    implementation project(':sa-react-native-mqtt')
 }
 ```
 
 ## Usage
 
 ```javascript
-import MQTT from 'sa-react-native-mqtt-mqtt';
+import MQTT from 'sa-react-native-mqtt';
 
 /* create mqtt client */
 MQTT.createClient({

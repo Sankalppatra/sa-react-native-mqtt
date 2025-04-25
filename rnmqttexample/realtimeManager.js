@@ -1,4 +1,4 @@
-import MQTT from 'sa-react-native-mqtt-mqtt';
+import MQTT from 'sa-react-native-mqtt';
 import _ from 'underscore';
 
 
