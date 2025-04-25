@@ -1,5 +1,5 @@
 rootProject.name = 'rnmqttexample'
 
-include ':chromeellite-react-native-mqtt'
-project(':chromeellite-react-native-mqtt').projectDir = new File(rootProject.projectDir,  '../node_modules/chromeellite-react-native-mqtt/android')
+include ':sa-react-native-mqtt-mqtt'
+project(':sa-react-native-mqtt-mqtt').projectDir = new File(rootProject.projectDir,  '../node_modules/sa-react-native-mqtt-mqtt/android')
 include ':app'

@@ -1,6 +1,6 @@
 {
-  "name": "@chromeellite/react-native-mqtt",
-  "version": "0.6.2",
+  "name": "sa-react-native-mqtt",
+  "version": "0.6.8",
   "description": "MQTT client for react-native with new architecture support",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sankalppatra/chromeellite-react-native-mqtt.git"
+    "url": "git+https://github.com/Sankalppatra/sa-react-native-mqtt-mqtt.git"
   },
   "keywords": [
     "mqtt",
@@ -19,9 +19,9 @@
   "author": "sankalp patra <sankalppatra2002@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Sankalppatra/chromeellite-react-native-mqtt/issues"
+    "url": "https://github.com/Sankalppatra/sa-react-native-mqtt-mqtt/issues"
   },
-  "homepage": "https://github.com/Sankalppatra/chromeellite-react-native-mqtt.git#readme",
+  "homepage": "https://github.com/Sankalppatra/sa-react-native-mqtt-mqtt.git#readme",
   "peerDependencies": {
     "react": ">=18.2.0",
     "react-native": ">=0.73.0"

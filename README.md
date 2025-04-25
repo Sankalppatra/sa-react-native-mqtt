@@ -1,6 +1,6 @@
 [![npm](https://img.shields.io/npm/dt/react-native-mqtt.svg)]()
 
-# chromeellite-react-native-mqtt
+# sa-react-native-mqtt-mqtt
 
 MQTT client for react-native with new architecture support
 
@@ -18,19 +18,19 @@ A [react-native](https://github.com/facebook/react-native) mqtt client module th
 ## Installation
 
 ```bash
-npm install chromeellite-react-native-mqtt --save
+npm install sa-react-native-mqtt-mqtt --save
 ```
 
 or
 
 ```bash
-yarn add chromeellite-react-native-mqtt
+yarn add sa-react-native-mqtt-mqtt
 ```
 
 ## Linking
 
 ```bash
-react-native link chromeellite-react-native-mqtt
+react-native link sa-react-native-mqtt-mqtt
 ```
 
 ### iOS
@@ -42,22 +42,22 @@ react-native link chromeellite-react-native-mqtt
 * Update `android/settings.gradle`:
 
 ```gradle
-include ':chromeellite-react-native-mqtt'
-project(':chromeellite-react-native-mqtt').projectDir = new File(rootProject.projectDir,  '../node_modules/chromeellite-react-native-mqtt/android')
+include ':sa-react-native-mqtt-mqtt'
+project(':sa-react-native-mqtt-mqtt').projectDir = new File(rootProject.projectDir,  '../node_modules/sa-react-native-mqtt-mqtt/android')
 ```
 
 * Update `android/app/build.gradle`:
 
 ```gradle
 dependencies {
-    implementation project(':chromeellite-react-native-mqtt')
+    implementation project(':sa-react-native-mqtt-mqtt')
 }
 ```
 
 ## Usage
 
 ```javascript
-import MQTT from 'chromeellite-react-native-mqtt';
+import MQTT from 'sa-react-native-mqtt-mqtt';
 
 /* create mqtt client */
 MQTT.createClient({
