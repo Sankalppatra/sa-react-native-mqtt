@@ -19,16 +19,16 @@
 
 
 @interface RCTMqtt ()
-@property NSMutableDictionary *clients;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, Mqtt *> *clients;
 @end
 
 
 @implementation RCTMqtt
 {
-    bool hasListeners;
+    BOOL hasListeners;
 }
 
-RCT_EXPORT_MODULE();
+RCT_EXPORT_MODULE(RCTMqtt)
 
 
 + (BOOL) requiresMainQueueSetup{
@@ -39,6 +39,7 @@ RCT_EXPORT_MODULE();
 {
     if ((self = [super init])) {
         _clients = [[NSMutableDictionary alloc] init];
+        hasListeners = NO;
     }
     return self;
     
@@ -71,76 +72,76 @@ RCT_EXPORT_METHOD(createClient:(NSDictionary *) options
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
-    NSString *clientRef = [[NSUUID UUID] UUIDString];
+    NSString *clientRef = [[NSProcessInfo processInfo] globallyUniqueString];
     
-    Mqtt *client = [[Mqtt alloc] initWithEmitter:self clientRef:clientRef];
+    Mqtt *client = [[Mqtt alloc] initWithEmitter:self options:options clientRef:clientRef];
     
-    [[self clients] setObject:client forKey:clientRef];
-    resolve(clientRef);
-    
-}
-
-RCT_EXPORT_METHOD(removeClient:(nonnull NSString *) clientRef) {
-    [[self clients] removeObjectForKey:clientRef];
-}
-
-
-RCT_EXPORT_METHOD(connect:(NSString *)clientRef
-                  options:(NSDictionary *)options
-                  resolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject) {
-    Mqtt *client = [[self clients] objectForKey:clientRef];
-    if (!client) {
-        reject(@"client_not_found", @"Client not found", nil);
-        return;
+    if (client) {
+        self.clients[clientRef] = client;
+        resolve(clientRef);
+    } else {
+        NSError *error = [NSError errorWithDomain:@"com.kuhmute.kca" 
+                                            code:500 
+                                        userInfo:@{@"Error reason": @"Failed to create MQTT client"}];
+        reject(@"client_creation_failed", @"Failed to create MQTT client", error);
     }
-    [client connectWithOptions:options resolver:resolve rejecter:reject];
 }
 
-RCT_EXPORT_METHOD(disconnect:(NSString *)clientRef
-                  resolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject) {
-    Mqtt *client = [[self clients] objectForKey:clientRef];
-    if (!client) {
-        reject(@"client_not_found", @"Client not found", nil);
-        return;
-    }
-    [client disconnectWithResolver:resolve rejecter:reject];
+RCT_EXPORT_METHOD(removeClient:(NSString *) clientRef) {
+    [self.clients removeObjectForKey:clientRef];
 }
 
-RCT_EXPORT_METHOD(isConnected:(nonnull NSString *) clientRef resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+
+RCT_EXPORT_METHOD(connect:(NSString *) clientRef) {
+    [self.clients[clientRef] connect];
+}
+
+RCT_EXPORT_METHOD(disconnect:(NSString *) clientRef) {
+    [self.clients[clientRef] disconnect];
+}
+
+RCT_EXPORT_METHOD(isConnected:(NSString *) clientRef resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     //RCTLogInfo(@"Bridge handling call to core for isConnected");
-    if([[self clients] objectForKey:clientRef]) {
-        BOOL conn = [[[self clients] objectForKey:clientRef] isConnected];
+    Mqtt *client = self.clients[clientRef];
+    if (client) {
+        BOOL conn = [client isConnected];
         //RCTLogInfo(@"Client: %@ isConnected: %s", clientRef, conn ? "true" : "false");
         resolve(@(conn));
     } else {
-        NSError *error = [[NSError alloc] initWithDomain:@"com.kuhmute.kca" code:404 userInfo:@{@"Error reason": @"Client Not Found"}];
+        NSError *error = [NSError errorWithDomain:@"com.kuhmute.kca" 
+                                            code:404 
+                                        userInfo:@{@"Error reason": @"Client Not Found"}];
         reject(@"client_not_found", @"This client doesn't exist", error);
     }
 }
 
-RCT_EXPORT_METHOD(isSubbed:(nonnull NSString *) clientRef:(nonnull NSString*)topic resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(isSubbed:(NSString *) clientRef topic:(NSString*)topic resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     //RCTLogInfo(@"Bridge handling call to core for topic: %@", topic);
-    if([[self clients] objectForKey:clientRef]) {
-        BOOL subbed = [[[self clients] objectForKey:clientRef] isSubbed:clientRef];
+    Mqtt *client = self.clients[clientRef];
+    if (client) {
+        BOOL subbed = [client isSubbed:topic];
         //RCTLogInfo(@"Client: %@ isSubbed: %s", clientRef, subbed ? "true" : "false");
         resolve(@(subbed));
     } else {
         
-        NSError *error = [[NSError alloc] initWithDomain:@"com.kuhmute.kca" code:404 userInfo:@{@"Error reason": @"Client Not Found"}];
+        NSError *error = [NSError errorWithDomain:@"com.kuhmute.kca" 
+                                            code:404 
+                                        userInfo:@{@"Error reason": @"Client Not Found"}];
         reject(@"client_not_found", @"This client doesn't exist", error);
     }
 }
 
-RCT_EXPORT_METHOD(getTopics:(nonnull NSString *) clientRef resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(getTopics:(NSString *) clientRef resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     //RCTLogInfo(@"Bridge handling call to core for client: %@", clientRef);
-    if([[self clients] objectForKey:clientRef]) {
-        NSMutableArray *ret = [[[self clients] objectForKey:clientRef] getTopics];
+    Mqtt *client = self.clients[clientRef];
+    if (client) {
+        NSMutableArray *ret = [client getTopics];
         //RCTLogInfo(@"Client: %@ topics: %@", clientRef, ret);
         resolve(ret);
     } else {
-        NSError *error = [[NSError alloc] initWithDomain:@"com.kuhmute.kca" code:404 userInfo:@{@"Error reason": @"Client Not Found"}];
+        NSError *error = [NSError errorWithDomain:@"com.kuhmute.kca" 
+                                            code:404 
+                                        userInfo:@{@"Error reason": @"Client Not Found"}];
         reject(@"client_not_found", @"This client doesn't exist", error);
     }
 }
@@ -148,73 +149,37 @@ RCT_EXPORT_METHOD(getTopics:(nonnull NSString *) clientRef resolver:(RCTPromiseR
 
 
 RCT_EXPORT_METHOD(disconnectAll) {
-    if (self.clients.count > 0) {
-        for(NSString* aClientRef in self.clients) {
-            [[[self clients] objectForKey:aClientRef] disconnect];
-        }
+    for (Mqtt *client in self.clients.allValues) {
+        [client disconnect];
     }
+    [self.clients removeAllObjects];
 }
 
-RCT_EXPORT_METHOD(subscribe:(NSString *)clientRef
-                  topic:(NSString *)topic
-                  qos:(NSInteger)qos
-                  resolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject) {
-    Mqtt *client = [[self clients] objectForKey:clientRef];
-    if (!client) {
-        reject(@"client_not_found", @"Client not found", nil);
-        return;
-    }
-    [client subscribe:topic qos:qos resolver:resolve rejecter:reject];
+RCT_EXPORT_METHOD(subscribe:(NSString *) clientRef topic:(NSString *)topic qos:(NSNumber *)qos) {
+    [self.clients[clientRef] subscribe:topic qos:qos];
 }
 
-RCT_EXPORT_METHOD(unsubscribe:(NSString *)clientRef
-                  topic:(NSString *)topic
-                  resolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject) {
-    Mqtt *client = [[self clients] objectForKey:clientRef];
-    if (!client) {
-        reject(@"client_not_found", @"Client not found", nil);
-        return;
-    }
-    [client unsubscribe:topic resolver:resolve rejecter:reject];
+RCT_EXPORT_METHOD(unsubscribe:(NSString *) clientRef topic:(NSString *)topic) {
+    [self.clients[clientRef] unsubscribe:topic];
 }
 
-RCT_EXPORT_METHOD(publish:(NSString *)clientRef
-                  topic:(NSString *)topic
-                  payload:(NSString *)payload
-                  qos:(NSInteger)qos
-                  retain:(BOOL)retain
-                  resolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject) {
-    Mqtt *client = [[self clients] objectForKey:clientRef];
-    if (!client) {
-        reject(@"client_not_found", @"Client not found", nil);
-        return;
-    }
-    [client publish:topic payload:payload qos:qos retain:retain resolver:resolve rejecter:reject];
-}
-
-RCT_EXPORT_METHOD(close:(NSString *)clientRef
-                  force:(BOOL)force
-                  resolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject) {
-    Mqtt *client = [[self clients] objectForKey:clientRef];
-    if (!client) {
-        reject(@"client_not_found", @"Client not found", nil);
-        return;
-    }
-    [client close:force resolver:resolve rejecter:reject];
-    [[self clients] removeObjectForKey:clientRef];
+RCT_EXPORT_METHOD(publish:(NSString *) clientRef topic:(NSString *)topic data:(NSString*)data qos:(NSNumber *)qos retain:(BOOL)retain) {
+    [self.clients[clientRef] publish:topic
+                               data:[data dataUsingEncoding:NSUTF8StringEncoding]
+                                qos:qos
+                             retain:retain];
+    
 }
 
 - (void)invalidate
 {
     [self disconnectAll];
+    [super invalidate];
 }
 
 - (void)dealloc
 {
+    [self disconnectAll];
 }
 
 @end
