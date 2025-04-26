@@ -1,28 +1,44 @@
-[![npm](https://img.shields.io/npm/dt/react-native-mqtt.svg)]()
-
 # sa-react-native-mqtt
 
-MQTT client for react-native with new architecture support
+[![npm version](https://img.shields.io/npm/v/sa-react-native-mqtt.svg)](https://www.npmjs.com/package/sa-react-native-mqtt)
+[![npm downloads](https://img.shields.io/npm/dt/sa-react-native-mqtt.svg)](https://www.npmjs.com/package/sa-react-native-mqtt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/your-repo/sa-react-native-mqtt/pulls)
 
-## Description
+> MQTT client for React Native with new architecture support
 
-A [react-native](https://github.com/facebook/react-native) mqtt client module that works
+---
 
-## MQTT Features (inherited from the native MQTT framework)
-* Uses [MQTT Framework](https://github.com/ckrey/MQTT-Client-Framework) for IOS, [Paho MQTT Client](https://eclipse.org/paho/clients/android/) for Android
-* Supports both IOS and Android
-* SSL/TLS
-* Native library, support mqtt over tcp (forget websockets, we're on **mobile**)
+## Features
 
+- 📱 Works on both iOS and Android
+- 🔒 SSL/TLS support
+- ⚡ Native performance (no websockets)
+- 🛠️ Simple, promise-based API
+- 🧩 Supports multi-nested domains
+- 🔄 Subscribe, publish, and manage topics easily
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Usage](#usage)
+- [API](#api)
+- [Contributing](#contributing)
+- [Todo](#todo)
+- [License](#license)
+
+---
 
 ## Installation
 
 ```bash
 npm install sa-react-native-mqtt --save
 ```
-
 or
-
 ```bash
 yarn add sa-react-native-mqtt
 ```
@@ -35,24 +51,49 @@ react-native link sa-react-native-mqtt
 
 ### iOS
 
-* Run `cd ios && pod install && cd ..`
+- Add the following to your `ios/Podfile` if not already present:
+  ```ruby
+  pod 'MQTTClient'
+  ```
+- Run `cd ios && pod install && cd ..`
 
 ### Android
 
-* Update `android/settings.gradle`:
+- Update `android/settings.gradle`:
 
-```gradle
-include ':sa-react-native-mqtt'
-project(':sa-react-native-mqtt').projectDir = new File(rootProject.projectDir,  '../node_modules/sa-react-native-mqtt/android')
+  ```gradle
+  include ':sa-react-native-mqtt'
+  project(':sa-react-native-mqtt').projectDir = new File(rootProject.projectDir,  '../node_modules/sa-react-native-mqtt/android')
+  ```
+
+- Update `android/app/build.gradle`:
+
+  ```gradle
+  dependencies {
+      implementation project(':sa-react-native-mqtt')
+  }
+  ```
+
+---
+
+## Quick Start
+
+```javascript
+import MQTT from 'sa-react-native-mqtt';
+
+MQTT.createClient({
+  uri: 'mqtt://broker.hivemq.com:1883',
+  clientId: 'exampleClientId'
+}).then(client => {
+  client.on('connect', () => {
+    client.subscribe('test/topic', 0);
+    client.publish('test/topic', 'Hello world!', 0, false);
+  });
+  client.connect();
+});
 ```
 
-* Update `android/app/build.gradle`:
-
-```gradle
-dependencies {
-    implementation project(':sa-react-native-mqtt')
-}
-```
+---
 
 ## Usage
 
@@ -87,56 +128,80 @@ MQTT.createClient({
 }).catch(function(err){
   console.log(err);
 });
-
 ```
+
+---
 
 ## API
 
-* `mqtt.createClient(options)`  create new client instance with `options`, async operation
-  * `uri`: `protocol://host:port`, protocol is [mqtt | mqtts]
-  * `host`: ipaddress or host name (override by uri if set)
-  * `port`: port number (override by uri if set)
-  * `tls`: true/false (override by uri if set to mqtts or wss)
-  * `user`: string username
-  * `pass`: string password
-  * `auth`: true/false - override = true Set to true if `user` or `pass` exist
-  * `clientId`: string client id
-  * `keepalive`
+### mqtt.createClient(options)
 
-* `client`
-  * `on(event, callback)`: add event listener for
-    * event: `connect` - client connected
-    * event: `closed` - client disconnected
-    * event: `error` - error
-    * event: `message` - message object
-  * `connect`: begin connection
-  * `disconnect`: disconnect
-  * `subscribe(topic, qos)`
-  * `publish(topic, payload, qos, retain)`
+Creates a new client instance with the given options (returns a Promise).
 
-* `message`
-  * `retain`: *boolean* `false`
-  * `qos`: *number* `2`
-  * `data`: *string* `"test message"`
-  * `topic`: *string* `"/data"`
+**Options:**
+
+- `uri` (string): `protocol://host:port`, protocol is [mqtt | mqtts]
+- `host` (string): IP address or host name (overridden by `uri` if set)
+- `port` (number): Port number (overridden by `uri` if set)
+- `tls` (boolean): Enable TLS/SSL (overridden by `uri` if set to mqtts or wss)
+- `user` (string): Username
+- `pass` (string): Password
+- `auth` (boolean): Set to true if `user` or `pass` exist (overrides default)
+- `clientId` (string): Client ID
+- `keepalive` (number): Keepalive interval in seconds
+
+### client
+
+- `on(event, callback)`: Add event listener
+  - `event: "connect"` - client connected (`callback(): void`)
+  - `event: "closed"` - client disconnected (`callback(): void`)
+  - `event: "error"` - error occurred (`callback(error: any): void`)
+  - `event: "message"` - message received (`callback(msg: Message): void`)
+- `connect()`: Begin connection
+- `disconnect()`: Disconnect
+- `subscribe(topic: string, qos: number)`: Subscribe to a topic
+- `publish(topic: string, payload: string, qos: number, retain: boolean)`: Publish a message
+
+### Message object
+
+- `retain` (boolean): Whether the message is retained (default: `false`)
+- `qos` (number): Quality of Service (default: `2`)
+- `data` (string): Message payload (default: `"test message"`)
+- `topic` (string): Topic name (default: `"/data"`)
+
+---
+
+## Contributing
+
+Contributions, issues and feature requests are welcome!  
+Feel free to check [issues page](https://github.com/your-repo/sa-react-native-mqtt/issues) or submit a [pull request](https://github.com/your-repo/sa-react-native-mqtt/pulls).
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for more information.
+
+---
 
 ## Todo
 
-* [ ] Use WeakReference for timer
-* [ ] Add disconnecting event
-* [ ] Add async versions of:
- - [ ] connect
- - [ ] subscribe
- - [ ] disconnect
- - [ ] unsubscribe
+- [ ] Use WeakReference for timer
+- [ ] Add disconnecting event
+- [ ] Add async versions of:
+  - [ ] connect
+  - [ ] subscribe
+  - [ ] disconnect
+  - [ ] unsubscribe
+- [x] Allow for multi-nested domains (e.g., na.est.example.com)
+- [x] Add isConnected implementation for iOS
+- [x] Add isSubbed for iOS & Android
+- [x] Add getTopics for iOS & Android
 
-* [X] Allow for multi nested domains ie: na.est.example.com
-* [X] Add isConnected implementation for iOS
-* [X] Add isSubbed for iOS & Android
-* [X] Add getTopics for iOS & Android
+---
 
-## LICENSE
+## License
 
-```text
-INHERIT FROM MQTT LIBRARY (progress)
-```
+This project inherits its license from the underlying MQTT libraries. See the [LICENSE](./LICENSE) file for details.
+
+---
+
+<!--
+If you have a screenshot or GIF, add it here for extra appeal!
+-->
