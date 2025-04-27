@@ -43,6 +43,13 @@ or
 yarn add sa-react-native-mqtt
 ```
 
+## Version Compatibility
+
+- React: >= 18.2.0
+- React Native: >= 0.73.0
+- iOS: >= 12.0
+- Android: API level >= 21 (Android 5.0)
+
 ## Linking
 
 ```bash
