@@ -12,11 +12,43 @@
 ## Features
 
 - 📱 Works on both iOS and Android
-- 🔒 SSL/TLS support
+- 🔒 SSL/TLS support with certificate validation
 - ⚡ Native performance (no websockets)
 - 🛠️ Simple, promise-based API
 - 🧩 Supports multi-nested domains
 - 🔄 Subscribe, publish, and manage topics easily
+- 🔐 Certificate-based authentication
+- ⏱️ Connection timeout handling
+- 🔄 Automatic reconnection with configurable attempts
+- 📦 Message queuing for offline scenarios
+- 🗜️ Message compression support
+- 🧹 Proper cleanup on disconnect
+
+---
+
+## Security Features
+
+- TLS/SSL support by default with proper certificate validation
+- Certificate configuration options (CA, client cert, private key)
+- Connection timeout handling
+- Improved authentication validation
+- Proper error handling for security-related issues
+
+## Performance Features
+
+- Message queuing for offline scenarios
+- Automatic reconnection with configurable attempts and intervals
+- Message compression support
+- Connection state management
+- Proper cleanup on disconnect
+
+## New Features
+
+- Message queue management for offline scenarios
+- Configurable reconnection strategy
+- Certificate-based authentication
+- Connection timeout handling
+- Message compression support
 
 ---
 

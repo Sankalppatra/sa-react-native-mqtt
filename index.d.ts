@@ -19,6 +19,19 @@ interface IMqttClientOptions {
 	willQos?: QoS; // only used when will is true
 	willRetainFlag?: boolean; // only used when will is true
 	automaticReconnect?: boolean; // android only
+	timeout?: number; // connection timeout in seconds
+	maxReconnectAttempts?: number; // maximum number of reconnection attempts
+	reconnectInterval?: number; // interval between reconnection attempts in milliseconds
+	messageQueueSize?: number; // maximum size of offline message queue
+	compression?: boolean; // enable message compression
+	maxMessageSize?: number; // maximum message size in bytes (default: 1MB)
+	minTLSVersion?: 'TLSv1' | 'TLSv1.1' | 'TLSv1.2' | 'TLSv1.3'; // minimum TLS version
+	certificates?: {
+		ca?: string; // CA certificate (optional)
+		cert?: string; // client certificate (optional)
+		key?: string; // client private key (optional)
+		rejectUnauthorized?: boolean; // reject unauthorized certificates (default: true)
+	};
 }
 
 export class IMqttClient {
@@ -48,6 +61,12 @@ export class IMqttClient {
 	reconnect(): void;
 
 	isConnected(): Promise<boolean>;
+
+	getTopics(): string[];
+
+	isSubbed(topic: string): boolean;
+
+	flushMessageQueue(): void;
 }
 
 declare namespace mqtt {
