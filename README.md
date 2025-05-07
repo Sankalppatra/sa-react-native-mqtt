@@ -200,6 +200,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for more information.
 - [x] Add isConnected implementation for iOS
 - [x] Add isSubbed for iOS & Android
 - [x] Add getTopics for iOS & Android
+- [x] This all u need to do 
 
 ---
 
